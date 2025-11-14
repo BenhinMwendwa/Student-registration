@@ -27,6 +27,27 @@ app.get('/api/users', (req, res) => {
         message: 'Users fetched successfully'
     });
 });
+
+// GET API - Get user by ID
+app.get('/api/users/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    console.log(`GET /api/users/${id} - Fetching user`);
+    
+    const user = users.find(u => u.id === id);
+    
+    if (user) {
+        res.json({
+            success: true,
+            data: user,
+            message: 'User fetched successfully'
+        });
+    } else {
+        res.status(404).json({
+            success: false,
+            message: 'User not found'
+        });
+    }
+});
 // POST API - Create new user
 app.post('/api/users', (req, res) => {
     console.log('POST /api/users - Creating new user', req.body);

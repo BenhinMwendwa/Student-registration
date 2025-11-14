@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Client</title>
+    <style>
+        /* Basic styling for usability */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .section h2 {
+            color: #555;
+            margin-top: 0;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+        
+        .response {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .form-group {
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Client</h1>
+        <p>This client consumes the GET and POST APIs from our Express server</p>
+        
+        <!-- GET API Section -->
+        <div class="section">
+            <h2>GET API - Fetch Users</h2>
+            <button onclick="getAllUsers()">Get All Users</button>
+            <div class="form-group">
+                <input type="number" id="userId" placeholder="Enter User ID">
+                <button onclick="getUserById()">Get User by ID</button>
+            </div>
+            <div id="getResponse" class="response">
+                GET API responses will appear here...
+            </div>
+        </div>
+        
+        <!-- POST API Section -->
+        <div class="section">
+            <h2>POST API - Create User</h2>
+            <div class="form-group">
+                <input type="text" id="userName" placeholder="Enter name">
+                <input type="email" id="userEmail" placeholder="Enter email">
+            </div>
+            <button onclick="createUser()">Create New User</button>
+            <div id="postResponse" class="response">
+                POST API responses will appear here...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base URL for our APIs
+        const API_BASE = '/api/users';
+        
+        // Function to display API responses
+        function displayResponse(elementId, response) {
+            const responseElement = document.getElementById(elementId);
+            responseElement.textContent = JSON.stringify(response, null, 2);
+        }
+        
+        // GET all users
+        async function getAllUsers() {
+            try {
+                const response = await fetch(API_BASE);
+                const data = await response.json();
+                displayResponse('getResponse', data);
+            } catch (error) {
+                displayResponse('getResponse', { error: error.message });
+            }
+        }
+        
+        // GET user by ID
+        async function getUserById() {
+            const userId = document.getElementById('userId').value;
+            
+            if (!userId) {
+                alert('Please enter a user ID');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/${userId}`);
+                const data = await response.json();
+                displayResponse('getResponse', data);
+            } catch (error) {
+                displayResponse('getResponse', { error: error.message });
+            }
+        }
+        
+        // POST create new user
+        async function createUser() {
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            
+            if (!name || !email) {
+                alert('Please fill in both name and email');
+                return;
+            }
+            
+            try {
+                const response = await fetch(API_BASE, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email })
+                });
+                
+                const data = await response.json();
+                displayResponse('postResponse', data);
+                
+                // Clear the form
+                document.getElementById('userName').value = '';
+                document.getElementById('userEmail').value = '';
+                
+            } catch (error) {
+                displayResponse('postResponse', { error: error.message });
+            }
+        }
+    </script>
+</body>
+</html>
