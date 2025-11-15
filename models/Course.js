@@ -1,15 +1,13 @@
-const { sequelize } = require("../config/database");
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');  // ✅ CORRECT IMPORT
 
-const {DataTypes} = require (sequelize)
-
-const Course = sequelize.define('Course' , {
-    id:{
-        type: DataTypes.INTEGER,
-        primarykey:true,
-        autoincrement:true
-    } ,
-    
-    code: {
+const Course = sequelize.define('Course', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  code: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
@@ -65,4 +63,3 @@ const Course = sequelize.define('Course' , {
 });
 
 module.exports = Course;
-

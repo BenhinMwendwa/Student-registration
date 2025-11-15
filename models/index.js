@@ -1,7 +1,7 @@
 const { sequelize } = require('../config/database');
-const Student = require('..models/Student')
-const Course = require('..models/Course');
-const Enrollment = require('..models/Enrollment');
+const Student = require('./Student')
+const Course = require('./Course');
+const Enrollment = require('./Enrollment');
 
 // Define Relationships
 

@@ -1,41 +1,34 @@
-const { Connection } = require('pg');
-const { Sequelize } = require('sequelize'); // imprt 
-require('dotenv').config(); 
+const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
-const Sequelize = new Sequelize (    // create instance
-process.env.DB_USER,
-process.env.DB_NAME,
-process.env.DB_PASSWORD,
-
+// ✅ CORRECT ORDER: database, username, password, options
+const sequelize = new Sequelize(
+  process.env.DB_NAME,      // Database name (FIRST)
+  process.env.DB_USER,      // Username (SECOND)  
+  process.env.DB_PASSWORD,  // Password (THIRD)
   {
-    host: process.env.DB_HOST,    // Localhost
-    port: process.env.DB_PORT,    // PostgreSQL port (usually 5432)
-    dialect: 'postgres',          // Database type
-    logging: false,               // Disable SQL log in console (optional)
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: 'postgres',
+    logging: false,
     pool: {
-      max: 5,                    // Maximum connections
-      min: 0,                    // Minimum connections  
-      acquire: 30000,            // Max time to acquire connection
-      idle: 10000                // Max time connection can be idle
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
     }
   }
 );
 
+// Test database connection
+const testConnection = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('✅ PostgreSQL connection established successfully!');
+  } catch (error) {
+    console.error('❌ Unable to connect to PostgreSQL database:', error.message);
+    process.exit(1);
+  }
+};
 
-
-
-
-//test data connection
-const testconnection =async () =>{
-    try {
-        await sequelize.authenticate();
-        console.log("connection established")
-    } catch(error){
-        console.log("connection failed")
-        process.exit(1) // if connection fails exit
-    }
-    
-
-
-}
 module.exports = { sequelize, testConnection };
