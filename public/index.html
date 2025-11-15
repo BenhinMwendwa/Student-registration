@@ -425,17 +425,33 @@
         let currentToken = null;
         let currentStudent = null;
 
-        // Display API responses
-        function displayResponse(response, isError = false) {
-            const responseElement = document.getElementById('response');
-            const statusClass = isError ? 'status error' : 'status success';
-            const statusText = isError ? 'ERROR' : 'SUCCESS';
-            
-            responseElement.innerHTML = `
-                <div class="${statusClass}">${statusText}</div>
-                ${JSON.stringify(response, null, 2)}
-            `;
-        }
+     function displayResponse(response, isError = false) {
+    const responseElement = document.getElementById('response');
+    
+    if (isError) {
+        responseElement.innerHTML = `
+            <div class="status error">❌ ERROR</div>
+            <div style="color: #721c24;">
+                <strong>${response.message || 'Something went wrong'}</strong>
+                ${response.error ? `<br><small>${response.error}</small>` : ''}
+            </div>
+        `;
+    } else {
+        responseElement.innerHTML = `
+            <div class="status success">✅ SUCCESS</div>
+            <div style="color: #155724;">
+                <strong>${response.message || 'Operation completed successfully'}</strong>
+            </div>
+        `;
+    }
+    
+    // Auto-clear success messages after 4 seconds
+    if (!isError) {
+        setTimeout(() => {
+            responseElement.innerHTML = '';
+        }, 4000);
+    }
+}
 
         // Show loading state
         function showLoading(button, text = 'Loading...') {
