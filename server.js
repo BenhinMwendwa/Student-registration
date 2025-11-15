@@ -1,21 +1,25 @@
 const express = require('express'); // setup
 const cors = require('cors');
+const courseRoutes = require('./routes/courses');
+const enrollmentRoutes = require('./routes/enrollment')
 const path = require('path');
-require('dotenv').config(); // ✅ NEW: Load environment variables
+require('dotenv').config(); // NEW: Load environment variables
 
 const app=express(); // our app
-const PORT= process.env.PORT || 3000; // ✅ UPDATED: Use environment port or default
+const PORT= process.env.PORT || 3000; // UPDATED: Use environment port or default
 
 // Middleware
 app.use(cors()); // allows API communication
 app.use(express.json());
 app.use(express.static('public'));
 
-// ✅ NEW: Import authentication routes
+//  NEW: Import authentication routes
 const authRoutes = require('./routes/auth');
 
-// ✅ NEW: Use authentication routes
+// NEW: Use authentication routes
 app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/enrollments', enrollmentRoutes);
 
 // Sample data storage (in production, use a database)
 let users = [
@@ -87,9 +91,16 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log('Available endpoints:');
-    console.log('  GET  /api/users');           // ✅ KEEP: Your original
-    console.log('  POST /api/users');           // ✅ KEEP: Your original
-    console.log('  POST /api/auth/register');   // ✅ NEW: Student registration
-    console.log('  POST /api/auth/login');      // ✅ NEW: Student login
-    console.log('  GET  /api/auth/me');         // ✅ NEW: Get student profile
+    console.log('  GET  /api/users');           //  Your original
+    console.log('  POST /api/users');           // Your original
+    console.log('  POST /api/auth/register');   //  Student registration
+    console.log('  POST /api/auth/login');      //  Student login
+    console.log('  GET  /api/auth/me');         // Get student profile
+    console.log('  GET  /api/courses');           
+    console.log('  GET  /api/courses/:id');       
+    console.log('  POST /api/courses');           
+    console.log('  POST /api/enrollments/enroll'); 
+    console.log('  GET  /api/enrollments/my-courses'); 
+    console.log('  DELETE /api/enrollments/drop/:id'); 
+
 });
