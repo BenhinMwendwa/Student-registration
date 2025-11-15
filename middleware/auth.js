@@ -1,20 +1,20 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');   // imports
 const { Student } = require('../models');
 
 const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN // picks only the header token 
 
-    if (!token) {
+    if (!token) {    //if no token send anauthorized
       return res.status(401).json({
         success: false,
         message: 'Access token required'
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const student = await Student.findByPk(decoded.id, {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); /// verify the token
+    const student = await Student.findByPk(decoded.id, {  // finds the student in DB
       attributes: { exclude: ['password'] }
     });
 
