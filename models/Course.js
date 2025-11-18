@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/database');  // ✅ CORRECT IMPORT
+const { sequelize } = require('../config/database');  //import
 
 const Course = sequelize.define('Course', {
   id: {

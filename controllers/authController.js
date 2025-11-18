@@ -32,7 +32,7 @@ const registerStudent = async (req, res) => {
     // Generate token
     const token = generateToken(student.id);
 
-    // Return student data (without password) and token
+    // Return student data 
     res.status(201).json({
       success: true,
       message: 'Student registered successfully',

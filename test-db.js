@@ -26,13 +26,13 @@ async function testDB() {
     
     // Test basic query
     const result = await sequelize.query('SELECT version()');
-    console.log('📋 PostgreSQL Version:', result[0][0].version);
+    console.log('PostgreSQL Version:', result[0][0].version);
     
     process.exit(0);
   } catch (error) {
-    console.error('❌ FAILED: Cannot connect to database');
-    console.error('💡 Error details:', error.message);
-    console.log('\n🔧 Troubleshooting tips:');
+    console.error('FAILED: Cannot connect to database');
+    console.error('Error details:', error.message);
+    console.log('\nTroubleshooting tips:');
     console.log('1. Is PostgreSQL running?');
     console.log('2. Check .env file credentials');
     console.log('3. Database "student_portal" exists?');

@@ -105,17 +105,17 @@ async function createCourses() {
     for (const courseData of courses) {
       try {
         const course = await Course.create(courseData);
-        console.log(`✅ Created: ${course.code} - ${course.title}`);
+        console.log(`Created: ${course.code} - ${course.title}`);
       } catch (courseError) {
-        console.log(`❌ Failed to create: ${courseData.code}`);
+        console.log(`Failed to create: ${courseData.code}`);
         console.log('   Error details:', courseError.errors ? courseError.errors[0].message : courseError.message);
       }
     }
     
-    console.log('🎉 Course creation completed!');
+    console.log(' Course creation completed!');
     process.exit(0);
   } catch (error) {
-    console.error('❌ General error:', error.message);
+    console.error(' General error:', error.message);
     if (error.errors) {
       error.errors.forEach(err => {
         console.log('   -', err.message);

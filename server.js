@@ -3,25 +3,25 @@ const cors = require('cors');
 const courseRoutes = require('./routes/courses');
 const enrollmentRoutes = require('./routes/enrollment')
 const path = require('path');
-require('dotenv').config(); // NEW: Load environment variables
+require('dotenv').config(); // Load environment variables
 
 const app=express(); // our app
-const PORT= process.env.PORT || 3000; // UPDATED: Use environment port or default
+const PORT= process.env.PORT || 3000; // Use environment port or default
 
 // Middleware
 app.use(cors()); // allows API communication
 app.use(express.json());
 app.use(express.static('public'));
 
-//  NEW: Import authentication routes
+//  Import authentication routes
 const authRoutes = require('./routes/auth');
 
-// NEW: Use authentication routes
+// Use authentication routes
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/enrollments', enrollmentRoutes);
 
-// Sample data storage (in production, use a database)
+// Sample data storage
 let users = [
     { id: 1, name: 'John Doe', email: 'john@example.com' },
     { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
@@ -29,7 +29,7 @@ let users = [
 
 let nextId = 3;
 
-// GET API - Get all users
+// Get all users
 app.get('/api/users', (req, res) => {
     console.log('GET /api/users - Fetching all users');
     res.json({
@@ -39,7 +39,7 @@ app.get('/api/users', (req, res) => {
     });
 });
 
-// GET API - Get user by ID
+// Get user by ID
 app.get('/api/users/:id', (req, res) => {
     const id = parseInt(req.params.id);
     console.log(`GET /api/users/${id} - Fetching user`);
@@ -91,8 +91,8 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log('Available endpoints:');
-    console.log('  GET  /api/users');           //  Your original
-    console.log('  POST /api/users');           // Your original
+    console.log('  GET  /api/users');         
+    console.log('  POST /api/users');        
     console.log('  POST /api/auth/register');   //  Student registration
     console.log('  POST /api/auth/login');      //  Student login
     console.log('  GET  /api/auth/me');         // Get student profile

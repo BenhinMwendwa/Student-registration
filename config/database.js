@@ -1,11 +1,10 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-// ✅ CORRECT ORDER: database, username, password, options
 const sequelize = new Sequelize(
-  process.env.DB_NAME,      // Database name (FIRST)
-  process.env.DB_USER,      // Username (SECOND)  
-  process.env.DB_PASSWORD,  // Password (THIRD)
+  process.env.DB_NAME,      
+  process.env.DB_USER,      
+  process.env.DB_PASSWORD,  
   {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -24,9 +23,9 @@ const sequelize = new Sequelize(
 const testConnection = async () => {
   try {
     await sequelize.authenticate();
-    console.log('✅ PostgreSQL connection established successfully!');
+    console.log(' Connection established successfully!');
   } catch (error) {
-    console.error('❌ Unable to connect to PostgreSQL database:', error.message);
+    console.error(' Unable to connect to PostgreSQL database:', error.message);
     process.exit(1);
   }
 };
